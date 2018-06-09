@@ -14,8 +14,9 @@ CrazyCandy.Preload.prototype = {
 
         // Background
         this.background = this.add.sprite(0, 0, 'background');
-        this.background.scale.setTo(0.6);
+        // this.background.scale.setTo(0.6);
 
+        // this.game.stage.backgroundColor = '#CDCDCD';
         //Game logo
         this.gameLogo = this.add.sprite(this.game.world.centerX, this.game.world.centerY - 60, 'logo');
         this.gameLogo.anchor.setTo(0.5);
@@ -45,8 +46,10 @@ CrazyCandy.Preload.prototype = {
     },
     startLoadingAssets: function () {
         //Background
+        this.load.spritesheet('helicopter','assets/helicopter.png',96,32,8);
         this.load.image('candy', 'assets/candy-small.png');
-        this.load.image('pop','assets/lollipop-2.png');
+        this.load.image('pop','assets/lollipop-21.png');
+        this.load.image('crate','assets/crate.png');
         // this.load.image('missile', 'assets/bullets/missile.png');
         // this.load.image('bomb', 'assets/bullets/bombs.png')
         // this.load.spritesheet('gamepad','assets/gamepad/gamepad_spritesheet.png',100,100);

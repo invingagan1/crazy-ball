@@ -2,8 +2,8 @@ var CrazyCandy = CrazyCandy || {};
 CrazyCandy.Game = function () { };
 CrazyCandy.Game.prototype = {
     velocity: 5,
-    gravity: 1000,
-    velocityY: 500,
+    gravity: 400,
+    velocityY: 200,
     enemyRate: 1,
     enemyRateChangeTimer: 0,
     timerCheck: 0,
@@ -15,28 +15,38 @@ CrazyCandy.Game.prototype = {
         this.score = 0;
 
         //Add scrolling background image tile.
-        this.backgroundTile = this.add.tileSprite(0, 0, 800, 600, 'background');
-        this.backgroundTile.tileScale.setTo(0.6)
+        this.backgroundTile = this.add.tileSprite(0, 0, 400, 312, 'background');
+        // this.backgroundTile.tileScale.setTo(0.5)
 
-        //Add candy
-        this.candy = this.add.sprite(100, this.game.world.centerY, 'candy');
-        this.candy.anchor.setTo(0.5);
-
-        // this.animation = this.game.add.tween(this.candy);
-        // this.animation.to({ angle: -180 }, 100);
+        //Add helicopter
+        this.helicopter = this.add.sprite(50, this.game.world.centerY, 'helicopter');
+        this.helicopter.anchor.setTo(0.5);
+        this.helicopterAnimation = this.helicopter.animations.add('fly');
+        this.helicopter.animations.play('fly', 60, true);
 
 
         // Lollipops.
-        this.pop = this.add.sprite(200, 200, 'pop');
-        this.pop.anchor.setTo(0.5);
-        this.pop.scale.setTo(0.2);
+        this.pops = this.game.add.group();
 
-        //Add physics to candy
-        this.game.physics.arcade.enable(this.candy);
-        this.candy.body.allowGravity = true;
-        this.candy.body.gravity.y = this.gravity;
-        this.candy.checkWorldBounds = true;
-        this.candy.events.onOutOfBounds.add(function () {
+
+        this.addRowOfPops();
+
+        this.timer = this.game.time.events.loop(1500, function () {
+            this.addRowOfPops();
+            this.score++;
+            this.updateScore();
+        }, this);
+
+        // this.pop = this.add.sprite(200, 200, 'pop');
+        // this.pop.anchor.setTo(0.5);
+        // this.pop.scale.setTo(0.2);
+
+        //Add physics to helicopter
+        this.game.physics.arcade.enable(this.helicopter);
+        this.helicopter.body.allowGravity = true;
+        this.helicopter.body.gravity.y = this.gravity;
+        this.helicopter.checkWorldBounds = true;
+        this.helicopter.events.onOutOfBounds.add(function () {
             this.gameOver();
         }, this);
 
@@ -48,24 +58,49 @@ CrazyCandy.Game.prototype = {
         });
 
         //Add collision listeners
+
+        // Add input listeners
         this.game.input.onTap.add(function () {
-            this.candy.body.velocity.y = this.velocityY * -1;
-            // this.animation.stop();
-            // this.animation.start();
+            this.helicopter.body.velocity.y = this.velocityY * -1;
         }, this);
     },
     update: function () {
-        this.backgroundTile.tilePosition.x -= this.velocity;
-        if (this.candy.body.velocity.y >= 0) {
-            this.candy.angle += 5;
-        }else{
-            this.candy.angle -= 5;
-        }
+        this.backgroundTile.tilePosition.x -= 0.5;
+
+        this.game.physics.arcade.overlap(
+            this.helicopter, this.pops, function () {
+                this.game.state.start('game-over');
+            }, null, this
+        )
     },
     gameOver: function () {
         this.game.state.start('game-over');
     },
     updateScore: function () {
         this.scoreText.setText('Score: ' + this.score);
+    },
+    addPop: function (x, y) {
+        var pop = this.game.add.sprite(x, y, 'crate');
+        this.pops.add(pop);
+        this.game.physics.arcade.enable(pop);
+        // pop.scale.setTo(0.2);
+        pop.body.velocity.x = -200;
+        pop.checkWorldBounds = true;
+        pop.ouOfBoundsKill = true;
+    },
+    addRowOfPops: function () {
+        var holePosition = Math.floor(Math.random() * 10) + 1;
+
+        // Add the 13 pipes 
+        // With one big hole at position 'hole' and 'hole + 1'
+        for (var i = 0; i < 14; i++) {
+            if (i != holePosition &&
+                i != holePosition + 1 &&
+                i != holePosition + 2 &&
+                i != holePosition + 3 &&
+                i != holePosition + 4) {
+                this.addPop(400, i * 24);
+            }
+        }
     }
 };

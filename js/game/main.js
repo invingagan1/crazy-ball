@@ -5,7 +5,7 @@ window.onload = function(){
     // var height = window.innerHeight;
     // var width = window.innerWidth;
     // var ratio = Math.ceil(width/height);
-    CrazyCandy.game = new Phaser.Game(800, 600, Phaser.AUTO, '');
+    CrazyCandy.game = new Phaser.Game(400, 312, Phaser.AUTO, '');
 
     /**
      * Add Game states here.

@@ -8,7 +8,7 @@ CrazyCandy.Boot = function () {};
 CrazyCandy.Boot.prototype = {
     preload: function () {
     
-        this.game.load.image('background', 'assets/background.png');
+        this.game.load.image('background', 'assets/background-1.png');
         this.game.load.image('logo', 'assets/candy.png');
         this.game.load.image('loading', 'assets/loading.jpg');
     },
@@ -17,6 +17,9 @@ CrazyCandy.Boot.prototype = {
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.scale.pageAlignHorizontally = true;
         this.scale.pageAlignVertically = true;
+
+        this.background = this.add.sprite(0, 0, 'background');
+        // this.background.scale.setTo(0.6);
 
         // this.game.scale.forceOrientation(true, false);
 
