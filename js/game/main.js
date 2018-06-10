@@ -1,6 +1,6 @@
 var CrazyCandy = CrazyCandy || {};
 
-window.onload = function(){
+var start = function(){
 
     // var height = window.innerHeight;
     // var width = window.innerWidth;
@@ -23,3 +23,6 @@ window.onload = function(){
     
     CrazyCandy.game.state.start('boot');
 }
+
+document.addEventListener('deviceready', start);
+window.addEventListener('load',start);
