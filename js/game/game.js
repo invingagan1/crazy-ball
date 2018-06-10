@@ -60,9 +60,14 @@ CrazyCandy.Game.prototype = {
         //Add collision listeners
 
         // Add input listeners
-        this.game.input.onTap.add(function () {
+        this.game.input.onDown.add(function () {
             this.helicopter.body.velocity.y = this.velocityY * -1;
+            this.helicopter.body.gravity.y = 0;
         }, this);
+        this.game.input.onUp.add(function() {
+            this.helicopter.body.velocity.y = 0;
+            this.helicopter.body.gravity.y = this.gravity;
+        }, this)
     },
     update: function () {
         this.backgroundTile.tilePosition.x -= 0.5;
