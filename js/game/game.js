@@ -24,22 +24,15 @@ CrazyCandy.Game.prototype = {
         this.helicopterAnimation = this.helicopter.animations.add('fly');
         this.helicopter.animations.play('fly', 60, true);
 
-
-        // Lollipops.
-        this.pops = this.game.add.group();
-
-
-        this.addRowOfPops();
+        // crate.
+        this.crateGroup = this.game.add.group();
+        this.addRowOfCrates();
 
         this.timer = this.game.time.events.loop(1500, function () {
-            this.addRowOfPops();
+            this.addRowOfCrates();
             this.score++;
             this.updateScore();
         }, this);
-
-        // this.pop = this.add.sprite(200, 200, 'pop');
-        // this.pop.anchor.setTo(0.5);
-        // this.pop.scale.setTo(0.2);
 
         //Add physics to helicopter
         this.game.physics.arcade.enable(this.helicopter);
@@ -57,23 +50,41 @@ CrazyCandy.Game.prototype = {
             fontWeight: 'bold'
         });
 
-        //Add collision listeners
+        // Add Game Controls
+        this.playButton = this.add.sprite(10, 10, 'play-button');
+        this.playButton.scale.setTo(0.5);
+        this.playButton.visible = false;
+
+        this.pauseButton = this.add.sprite(10, 10, 'pause-button');
+        this.pauseButton.scale.setTo(0.5);
+        this.pauseButton.visible = true;
+        this.pauseButton.inputEnabled = true;
+        this.pauseButton.events.onInputUp.add(function () {
+            this.pauseButton.visible = false;
+            this.playButton.visible = true;
+            this.game.paused = true;
+        }, this);
 
         // Add input listeners
         this.game.input.onDown.add(function () {
             this.helicopter.body.velocity.y = this.velocityY * -1;
             this.helicopter.body.gravity.y = 0;
         }, this);
-        this.game.input.onUp.add(function() {
+        this.game.input.onUp.add(function () {
             this.helicopter.body.velocity.y = 0;
             this.helicopter.body.gravity.y = this.gravity;
+            if(this.game.paused){
+                this.game.paused = !this.game.paused;
+                this.playButton.visible = false;
+                this.pauseButton.visible = true;
+            }
         }, this)
     },
     update: function () {
         this.backgroundTile.tilePosition.x -= 0.5;
 
         this.game.physics.arcade.overlap(
-            this.helicopter, this.pops, function () {
+            this.helicopter, this.crateGroup, function () {
                 this.game.state.start('game-over');
             }, null, this
         )
@@ -84,16 +95,16 @@ CrazyCandy.Game.prototype = {
     updateScore: function () {
         this.scoreText.setText('Score: ' + this.score);
     },
-    addPop: function (x, y) {
-        var pop = this.game.add.sprite(x, y, 'crate');
-        this.pops.add(pop);
-        this.game.physics.arcade.enable(pop);
-        // pop.scale.setTo(0.2);
-        pop.body.velocity.x = -200;
-        pop.checkWorldBounds = true;
-        pop.ouOfBoundsKill = true;
+    addCrate: function (x, y) {
+        var crate = this.game.add.sprite(x, y, 'crate');
+        this.crateGroup.add(crate);
+        this.game.physics.arcade.enable(crate);
+        // crate.scale.setTo(0.2);
+        crate.body.velocity.x = -200;
+        crate.checkWorldBounds = true;
+        crate.ouOfBoundsKill = true;
     },
-    addRowOfPops: function () {
+    addRowOfCrates: function () {
         var holePosition = Math.floor(Math.random() * 10) + 1;
 
         // Add the 13 pipes 
@@ -104,7 +115,7 @@ CrazyCandy.Game.prototype = {
                 i != holePosition + 2 &&
                 i != holePosition + 3 &&
                 i != holePosition + 4) {
-                this.addPop(400, i * 24);
+                this.addCrate(400, i * 24);
             }
         }
     }

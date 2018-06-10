@@ -62,6 +62,8 @@ CrazyCandy.Preload.prototype = {
         this.load.image('mute','assets/ui-elements/mute.png');
         this.load.image('game-over','assets/ui-elements/game-over.png');
         this.load.image('replay','assets/ui-elements/replay.png');
+        this.load.image('play-button','assets/ui-elements/play-button.png');
+        this.load.image('pause-button','assets/ui-elements/pause-button.png');
 
         this.game.load.start();
         this.loadingText.setText('Loading...');

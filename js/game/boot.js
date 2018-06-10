@@ -9,7 +9,7 @@ CrazyCandy.Boot.prototype = {
     preload: function () {
     
         this.game.load.image('background', 'assets/background-1.png');
-        this.game.load.image('logo', 'assets/candy.png');
+        this.game.load.image('logo', 'assets/helicopter.png');
         this.game.load.image('loading', 'assets/loading.jpg');
     },
     create: function () {
