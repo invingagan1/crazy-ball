@@ -69,6 +69,7 @@ CrazyCandy.Game.prototype = {
         this.game.input.onDown.add(function () {
             this.helicopter.body.velocity.y = this.velocityY * -1;
             this.helicopter.body.gravity.y = 0;
+            console.log('down');
         }, this);
         this.game.input.onUp.add(function () {
             this.helicopter.body.velocity.y = 0;
@@ -78,6 +79,7 @@ CrazyCandy.Game.prototype = {
                 this.playButton.visible = false;
                 this.pauseButton.visible = true;
             }
+            console.log('up');
         }, this)
     },
     update: function () {
