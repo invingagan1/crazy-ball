@@ -17,12 +17,12 @@ var start = function(){
     
     CrazyCandy.game.state.add('boot', CrazyCandy.Boot);
     CrazyCandy.game.state.add('preload', CrazyCandy.Preload);
+    CrazyCandy.game.state.add('register', CrazyCandy.Register);
     CrazyCandy.game.state.add('selection', CrazyCandy.Selection);
     CrazyCandy.game.state.add('game', CrazyCandy.Game);
     CrazyCandy.game.state.add('game-over', CrazyCandy.GameOver);
     
     CrazyCandy.game.state.start('boot');
 }
-
 document.addEventListener('deviceready', start);
 window.addEventListener('load',start);

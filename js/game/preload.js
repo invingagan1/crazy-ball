@@ -18,9 +18,9 @@ CrazyCandy.Preload.prototype = {
 
         // this.game.stage.backgroundColor = '#CDCDCD';
         //Game logo
-        this.gameLogo = this.add.sprite(this.game.world.centerX, this.game.world.centerY - 60, 'logo');
+        this.gameLogo = this.add.sprite(this.game.world.centerX, this.game.world.centerY - 42, 'logo');
         this.gameLogo.anchor.setTo(0.5);
-        this.gameLogo.scale.setTo(0.25);
+        // this.gameLogo.scale.setTo(0.25);
 
         // Loading bar
         this.preloadBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loading');
@@ -55,6 +55,8 @@ CrazyCandy.Preload.prototype = {
         // this.load.spritesheet('gamepad','assets/gamepad/gamepad_spritesheet.png',100,100);
 
         //UI elements to be preloaded
+        this.load.image('leaders','assets/ui-elements/leaders.png');
+        this.load.image('share','assets/ui-elements/share.png');
         this.load.image('play','assets/ui-elements/play.png');
         this.load.image('settings','assets/ui-elements/settings.png');
         this.load.image('facebook','assets/ui-elements/facebook.png');
@@ -70,6 +72,6 @@ CrazyCandy.Preload.prototype = {
 
     },
     loadingFinished: function () {
-        this.game.state.start('selection');
+        this.game.state.start('register');
     }
 };
